@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Versatile Video Player</title>
+    <style>
+        body {
+            background-color: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        #video-container {
+            max-width: 100%;
+            margin: 20px auto;
+        }
+
+        #video-player {
+            width: 100%;
+        }
+
+        #link-input {
+            width: 80%;
+            padding: 10px;
+        }
+
+        #play-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="video-container">
+        <video id="video-player" controls autoplay>
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div>
+        <input type="text" id="link-input" placeholder="Paste video link here">
+        <button id="play-button">Play</button>
+    </div>
+
+    <script>
+        const videoPlayer = document.getElementById('video-player');
+        const linkInput = document.getElementById('link-input');
+        const playButton = document.getElementById('play-button');
+
+        playButton.addEventListener('click', () => {
+            const videoUrl = linkInput.value.trim();
+            
+            if (videoUrl) {
+                // Check if the provided URL is a direct video URL or not
+                if (videoUrl.match(/\.(mp4|webm|ogg|mov)$/i)) {
+                    videoPlayer.src = videoUrl;
+                } else {
+                    // If it's not a direct video URL, assume it's an indirect link (e.g., YouTube)
+                    // You can implement more advanced logic for indirect links here
+                    alert('Indirect links are not supported in this example.');
+                }
+                
+                videoPlayer.load();
+                videoPlayer.play();
+            } else {
+                alert('Please enter a valid video link.');
+            }
+        });
+    </script>
+</body>
+</html>
