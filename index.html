@@ -16,10 +16,6 @@
             margin: 20px auto;
         }
 
-        #video-player {
-            width: 100%;
-        }
-
         #link-input {
             width: 80%;
             padding: 10px;
@@ -36,9 +32,7 @@
 </head>
 <body>
     <div id="video-container">
-        <video id="video-player" controls autoplay>
-            Your browser does not support the video tag.
-        </video>
+        <div id="player"></div>
     </div>
 
     <div>
@@ -47,27 +41,31 @@
     </div>
 
     <script>
-        const videoPlayer = document.getElementById('video-player');
         const linkInput = document.getElementById('link-input');
         const playButton = document.getElementById('play-button');
+        const playerContainer = document.getElementById('player');
+        let player;
 
         playButton.addEventListener('click', () => {
             const videoUrl = linkInput.value.trim();
             
-            if (videoUrl) {
-                // Check if the provided URL is a direct video URL or not
-                if (videoUrl.match(/\.(mp4|webm|ogg|mov)$/i)) {
-                    videoPlayer.src = videoUrl;
-                } else {
-                    // If it's not a direct video URL, assume it's an indirect link (e.g., YouTube)
-                    // You can implement more advanced logic for indirect links here
-                    alert('Indirect links are not supported in this example.');
-                }
-                
-                videoPlayer.load();
-                videoPlayer.play();
+            if (videoUrl.includes('youtube.com/watch?v=')) {
+                const videoId = videoUrl.split('v=')[1];
+                const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+
+                // Create an iframe element to embed the YouTube video
+                player = document.createElement('iframe');
+                player.src = embedUrl;
+                player.width = '100%';
+                player.height = '400';
+                player.frameBorder = '0';
+                player.allowFullscreen = true;
+
+                // Replace the player container with the YouTube iframe
+                playerContainer.innerHTML = '';
+                playerContainer.appendChild(player);
             } else {
-                alert('Please enter a valid video link.');
+                alert('Please enter a valid YouTube video link.');
             }
         });
     </script>
